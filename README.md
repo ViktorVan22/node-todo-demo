@@ -9,7 +9,8 @@
 ### 运行
 
 `node cli`: 使用 TODO 命令行工具
-1657089368742.png
+![](/imgs/demo1.png)
 
 `node cli -h`: 显示所有可行的选项和命令
-1657089413671.png
+
+![](/imgs/demo2.png)

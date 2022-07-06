@@ -1,40 +1,24 @@
-const homedir = require("os").homedir();
-const home = process.env.home || homedir;
-
-// 处理路径的
-const p = require("path");
-const dbPath = p.join(home, ".todo");
-
-const fs = require("fs");
+const db = require("./db.js");
 
 //导出的所有功能
-module.exports.add = title => {
-  console.log("title: ", title);
+module.exports.add = async title => {
   // 读取之前的任务
-  fs.readFile(dbPath, { flag: "a+" }, (error, data) => {
-    if (error) {
-      console.log(error);
-    } else {
-      let list;
-      try {
-        list = JSON.parse(data.toString());
-      } catch (error2) {
-        list = [];
-      }
-      const task = {
-        title: title,
-        done: false,
-      };
-      console.log("task: ", task);
-      list.push(task);
-      const string = JSON.stringify(list);
-      fs.writeFile(dbPath, string + "\n", error3 => {
-        if (error3) {
-          console.log(error3);
-        }
-      });
-    }
-  });
+  const list = await db.read();
   // 往里面添加一个title任务
+  list.push({ title, done: false });
   // 存储任务到文件
+  await db.write(list);
+};
+
+module.exports.clear = async () => {
+  await db.write([]);
+};
+
+module.exports.showAll = async () => {
+  //   读取之前的任务
+  const list = await db.read();
+  //   打印之前的任务
+  list.forEach((task, index) => {
+    console.log(`${task.done ? "[x]" : "[_]"} ${index + 1} - ${task.title}`);
+  });
 };

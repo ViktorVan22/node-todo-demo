@@ -1,3 +1,5 @@
+// 处理文件的读写
+
 const homedir = require("os").homedir();
 const home = process.env.home || homedir;
 
@@ -28,7 +30,7 @@ const db = {
   write(list, path = dbPath) {
     return new Promise((resolve, reject) => {
       const string = JSON.stringify(list);
-      fs.writeFile(dbPath, string + "\n", error => {
+      fs.writeFile(path, string + "\n", error => {
         if (error) return reject(error);
         resolve();
       });

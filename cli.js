@@ -1,3 +1,5 @@
+// 使用commander定义命令和选项
+
 const program = require("commander");
 const api = require("./index.js");
 
